@@ -1,4 +1,4 @@
-# Link to Problem:- https://www.geeksforgeeks.org/connect-n-ropes-minimum-cost/
+#Link to Problem:- https://www.geeksforgeeks.org/connect-n-ropes-minimum-cost/
 
 import heapq
 
