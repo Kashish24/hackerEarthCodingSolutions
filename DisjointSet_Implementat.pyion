@@ -1,0 +1,62 @@
+# Always remember iterative method is better than recursion method.
+Link to Problem:- https://www.hackerearth.com/practice/data-structures/disjoint-data-strutures/basics-of-disjoint-data-structures/practice-problems/algorithm/fair-competition-0315250e/
+'''
+# Sample code to perform I/O:
+
+name = input()                  # Reading input from STDIN
+print('Hi, %s.' % name)         # Writing output to STDOUT
+
+# Warning: Printing unwanted or ill-formatted data to output will cause the test cases to fail
+'''
+
+# Write your code here
+class disJoint:
+    def __init__(self,n):
+        self.rank = [1]*n;
+        self.parant = [i for i in range(n)];
+    def find(self,x):
+        if(self.parant[x] != x):
+            self.parant[x] = self.find(self.parant[x])
+        return self.parant[x];
+    def union(self,x,y,z):
+        xset = self.find(x);
+        yset = self.find(y);
+        if(xset == yset):
+            return z;
+        if self.rank[xset] < self.rank[yset]:
+            self.parant[xset] = yset;
+        elif self.rank[xset] > self.rank[yset]:
+            self.parant[yset] = xset;
+        else:
+            self.parant[yset] = xset;
+            self.rank[xset] +=1;
+        z -=1
+        return (z);
+    def printDisjointSets(self):
+        #print(*self.parant)
+        #print(*self.rank)
+        tempParant = self.parant
+        res = []
+        for i in range(len(self.parant)):
+            if(tempParant[i]!=-1):
+                x = []
+                tmp = tempParant[i];
+                tempParant[i] = -1
+                x.append(i+1);
+                for j in range(i+1, len(self.parant)):
+                    if tempParant[j] != -1 and tempParant[j] == tmp:
+                        x.append(j+1);
+                        tempParant[j] = -1;
+                res.append(x);
+        return res;
+
+for t in range(int(input())):
+    n,m = map(int, input().split());
+    print("n = " + str(n) + " m= " + str(m))
+    obj = disJoint(n);
+    disjointSetCount = n;
+    for _ in range(m):
+        x,y = map(int, input().split());
+        disjointSetCount = obj.union(x-1,y-1, disjointSetCount);
+    res = obj.printDisjointSets();
+    print(*res)
